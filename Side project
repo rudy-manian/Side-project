@@ -1,0 +1,148 @@
+"""
+Sidescrolling_Shooter
+
+Description:
+"""
+
+"Side project, python 2"
+#Side scrolling shooter 
+""""""""""""""""""""""""
+
+#Import Libraries and initiate
+import pygame, tsk, random, math, sys, time, Asteroids 
+pygame.init()
+
+#Set window
+W = pygame.display.set_mode([1018, 573])
+
+#Declare sprites
+Background = tsk.Sprite("SkyScrolling.jpg", 0, 0)
+Player = tsk.Sprite("RoundShip.png", 0, 0)
+Ammo = tsk.Sprite("Dart.png", 0, 0)
+Rock = tsk.Sprite("RPSRockSmall.png", 0, 0)
+
+#Set Variables
+Ammo.angle = -90
+Ammo.scale -= 0.5
+Player.scale -= 0.5
+Lives = 3
+
+#Introduction
+input("In this game, you must avoid or blow up asteroids. (Press enter to advance)")
+input("You control your movement via the up and down arrow keys. ")
+input("You shoot by pressing the spacebar.")
+input("You can not shoot while moving.")
+input("This means that you wont be able to maneuver during this time.")
+input("Good luck!")
+
+#Initiate loop
+drawing = True
+while drawing:
+    
+    #Get events
+    for event in pygame.event.get():
+  
+        #Quit event
+        if event.type == pygame.QUIT:
+            drawing = False  
+        
+        #Player movement
+        #Up
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
+            Up = True
+            while Up == True:
+                Player.y -= 3
+                if Player.y > 590:
+                    Player.y = -90
+                if Player.y < -90:
+                    Player.y = 590
+                #Redrawing
+                #Background looping        
+                Background.x -= 2
+                if Background.x <= -1018:
+                    Background = tsk.Sprite("SkyScrolling.jpg", 0, 0)
+                #Additional loop to ensure smoothness
+                Background.x -= 2
+                if Background.x <= -1018:
+                    Background = tsk.Sprite("SkyScrolling.jpg", 0, 0)
+                    
+                #Drawing
+                W.fill((255, 255, 255))
+                Background.draw()
+                Player.draw()
+                pygame.display.flip()
+                #Checking to see if up key is unpressed
+                for event in pygame.event.get():
+                    if event.type == pygame.KEYUP and event.key == pygame.K_UP:
+                       Up = False 
+                        
+        #Down
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
+            Down = True
+            while Down == True:
+                Player.y += 3
+                if Player.y > 590:
+                    Player.y = -90
+                if Player.y < -90:
+                    Player.y = 590
+                
+                #Redrawing
+                #Background looping        
+                Background.x -= 2
+                if Background.x <= -1018:
+                    Background = tsk.Sprite("SkyScrolling.jpg", 0, 0)
+                #Additional loop to ensure smoothness
+                Background.x -= 2
+                if Background.x <= -1018:
+                    Background = tsk.Sprite("SkyScrolling.jpg", 0, 0)
+                    
+                #Drawing
+                W.fill((255, 255, 255))
+                Background.draw()
+                Player.draw()
+                pygame.display.flip()
+                #Checking to see if down key is unpressed
+                for event in pygame.event.get():
+                    if event.type == pygame.KEYUP and event.key == pygame.K_DOWN:
+                       Down = False            
+            
+        #Player shooting        
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+            Firing = True
+            Ammo.x, Ammo.y = Player.x + 30, Player.y + 40
+            #While the playe holds the spacebar
+            while Firing == True:
+                Ammo.x += 10
+                #Background looping        
+                Background.x -= 2
+                if Background.x <= -1018:
+                    Background = tsk.Sprite("SkyScrolling.jpg", 0, 0)
+                #Additional loop to ensure smoothness
+                Background.x -= 2
+                if Background.x <= -1018:
+                    Background = tsk.Sprite("SkyScrolling.jpg", 0, 0)
+                #Checking to see if space key is unpressed
+                for event in pygame.event.get():
+                    if event.type == pygame.KEYUP and event.key == pygame.K_SPACE:
+                       Firing = False        
+                #Drawing
+                W.fill((255, 255, 255))
+                Background.draw()
+                Player.draw()
+                Ammo.draw()
+                pygame.display.flip()    
+    
+    #Background looping        
+    Background.x -= 2
+    if Background.x <= -1018:
+        Background = tsk.Sprite("SkyScrolling.jpg", 0, 0)
+    #Additional loop to ensure smoothness
+    Background.x -= 2
+    if Background.x <= -1018:
+        Background = tsk.Sprite("SkyScrolling.jpg", 0, 0)
+
+    #Drawing
+    W.fill((255, 255, 255))
+    Background.draw()
+    Player.draw()
+    pygame.display.flip()
